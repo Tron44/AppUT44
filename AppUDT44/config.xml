@@ -5,10 +5,10 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:cdv="http://cordova.apache.org/ns/1.0">
 
-    <name>Custom config plugin example</name>
-    <description>An example app that demonstrates use of cordova-custom-config plugin</description>
-    <author email="dave@workingedge.co.uk" href="http://www.workingedge.co.uk/dave">
-        Dave Alden
+    <name>UDT44</name>
+    <description>Cuestionarios UDT44</description>
+    <author email="rarranzm@gmail.com" href="http://www.tron44.com">
+        Raul Arranz Molinero
     </author>
     <content src="index.html" />
     <access origin="*" />
@@ -190,4 +190,5 @@
         <custom-resource catalog="custom" idiom="iphone" scale="2x" src="resources/ios/custom-icons/back@2x.png" type="image" />
         <custom-resource catalog="custom" idiom="ipad" scale="3x" src="resources/ios/custom-icons/back@3x.png" type="image" />
     </platform>
+    <icon src="www/assets/fondo_logo.png"/>
 </widget>
