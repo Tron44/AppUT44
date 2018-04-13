@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Gesti&oacute;n Cuestionarios pagina 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--jQuery-->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+
+  <!--Bootstrap-->
+  <link rel="stylesheet" href="css/bootstrap.min.css"/>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  
+
+  
+  <link rel="stylesheet" href="js/jquery.mobile/jquery.mobile-1.4.5.css" /> 
+    <script src="js/jquery.mobile/jquery.mobile-1.4.5.min.js"></script>
+  
+  
+<script>	
+
+var paramGrado;
+
+function getSeleccion(cadenarec){
+    cadenarec = "?paramGrado=" + paramGrado + "&valor=" + cadenarec;
+	console.log(cadenarec);
+	window.location.href='pagina4.html' + cadenarec;
+}
+
+function atras(){
+	
+	window.location.href='index.html';
+}
+
+
+
+	</script>
+	
+	<script>	
+
+$(document).ready(function(){
+	
+	
+			var paramstr = window.location.search.substr(1);
+			var paramarr = paramstr.split ("&");
+			var params = {};
+			
+			
+			for ( var i = 0; i < paramarr.length; i++) {
+			    var tmparr = paramarr[i].split("=");
+			    params[tmparr[0]] = tmparr[1];
+			}
+			
+			paramGrado = params['valor'];
+		$("#asignatura").text(params['as'].toUpperCase());		
+	$.ajax({
+    type: "GET",      
+    url: 'http://192.168.1.36:8080/ApiUDT44-1.0.0/cuestionarios' + "/" + paramGrado,     
+   
+    dataType: "json",    
+    success: function(data){    	
+      $.each(data,function(key, registro) {     
+      
+        $("#Lista3").append('<a href=# class=list-group-item list-group-item-action value='+registro.idCuestionario+
+            ' onclick=getSeleccion(\"'+registro.idCuestionario+'&as='+params['as']+'\")>'+registro.nombreCuestionario+'</li>'); 
+               
+      });        
+    },
+    error: function(data) {
+      alert('error');
+    }
+  });
+	
+	
+})
+
+
+
+	</script>
+
+   
+  
+</head>
+
+
+
+
+
+
+<body>
+	
+	
+	<div class="row">
+		<div class="col-2" style="text-align: right; background-color: #113416;"><br><font color="white"><label onclick="atras()"> << </label></font></div>
+		<div class="col-9" style="text-align: right; background-color: #113416;"><br><font color="white"><label id="asignatura"></label></font></div>
+		<div class="col-1" style="text-align: center; background-color: #113416;">&nbsp;</div>
+	</div>
+	
+	
+	
+<br><br>
+    
+   
+		
+		<div class="row">			
+			<div class="col-1" style="background-color:white;">&nbsp;</div>
+			<div class="col-10 align-self-center" style="background-color:white;">	
+				
+				<label for="Lista" class="select">Cuestionarios:</label>
+				<div class="list-group" id="Lista3">
+  				 <a href="#" class="list-group-item list-group-item-action"></a>		
+				</div>
+			</div>
+			<div class="col-1" style="background-color:white;">&nbsp;</div>
+		</div>	
+		
+
+		
+
+   
+
+
+
+
+
+
+
+
+
+</body>
+</html>

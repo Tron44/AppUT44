@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Gesti&oacute;n Cuestionarios pagina 3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<!--jQuery-->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+
+  <!--Bootstrap-->
+  <link rel="stylesheet" href="css/bootstrap.min.css"/>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  
+
+  
+  <link rel="stylesheet" href="js/jquery.mobile/jquery.mobile-1.4.5.css" /> 
+    <script src="js/jquery.mobile/jquery.mobile-1.4.5.min.js"></script>
+  <Style>
+  	ul {
+    list-style: none; /* Remove list bullets */
+    padding: 0;
+    margin: 0;
+    color: blue;
+}
+li {
+    list-style: none; /* Remove list bullets */
+    padding: 0;
+    margin: 0;
+}
+  	</Style>
+  
+  
+  <script>  
+var parametroCuest;
+var parametroAsig;
+var paramAsig;
+function atras(){
+    
+    
+    //window.location.href='pagina3.html?valor='+ params2['valor'] + '&as=' + params2['as'];
+     window.location.href='pagina3.html?valor='+ paramGrado + '&as=' + paramAsig;
+}
+
+function submitForm(){
+	//le puedo poner un botón de confirmar.
+	formularioTotal.submit();
+}
+
+$(document).ready(function(){
+    
+    
+            var paramstr2 = window.location.search.substr(1);
+            var paramarr2 = paramstr2.split ("&");
+            var params2 = {};
+            
+            
+            for ( var i = 0; i < paramarr2.length; i++) {
+                var tmparr2 = paramarr2[i].split("=");
+                params2[tmparr2[0]] = tmparr2[1];
+                console.log("valorcuestinario "  + params2['valor']);
+                console.log(params2['as']);
+            }
+            parametroCuest = params2['valor'];
+            paramAsig = params2['as'];
+            paramGrado =  params2['paramGrado'];
+            
+        $("#asignatura").text(params2['as'].toUpperCase());  
+        $('input[name="cuestionarioOcu"]').val(parametroCuest);
+        $('input[name="asignaturaOcu"]').val(paramAsig);
+        $('input[name="gradoOcu"]').val(paramGrado);
+        
+        
+    $.ajax({
+    type: "GET",      
+    url: 'http://192.168.1.103:8080/ApiRest-0.0.1-SNAPSHOT/preguntas' + "/" + parametroCuest,     
+   
+    dataType: "json",   
+    success: function(data){        
+      $.each(data,function(key, registro) {        	                      
+        $("#pregunta").append('<p><ul>' + registro.textoPregunta + '<p>'); 
+        var arrayrec = registro.listaRespuestas;
+        var tipopregunta = registro.tipoPregunta;
+        
+        	$.each(arrayrec,function(key, registroResp) {   
+        		var valido =  registroResp.valido;        		
+        		if (tipopregunta=="Excluyente"){
+        			$("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + '> ' + registroResp.textoRespuesta + '</li>');
+        		}else{
+        			$("#pregunta").append('<li><input type=checkbox name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + '> ' + registroResp.textoRespuesta + '</li>');
+        		}
+               
+        		
+        	});
+      });        
+    },
+    error: function(data) {
+      alert('error');
+    }
+  });
+    
+    
+})
+
+
+
+
+    </script>
+  
+</head>
+
+
+
+<body>
+<div class="row">
+        <div class="col-2" style="text-align: right; background-color: #113416;"><br><font color="white"><label onclick="atras()"> << </label></font></div>
+        <div class="col-9" style="text-align: right; background-color: #113416;"><br><font color="white"><label id="asignatura"></label></font></div>
+        <div class="col-1" style="text-align: center; background-color: #113416;">&nbsp;</div>
+    </div>
+    
+    
+    
+<br><br>
+        
+       
+         <div class="row">         
+            <div class="col-1" style="background-color:white;">&nbsp;</div>
+            <div class="col-10 align-self-center" style="background-color:white;">     
+            	<form action="pagina5.html" name="formularioTotal" method="get">            
+	           	 		<label>Preguntas y Respuestas:</label>	            	           	
+									<div id="pregunta">
+									
+									</ul>	
+									</div>	
+                                    <input type="hidden" id="cuestionarioOcu" name="cuestionarioOcu">	
+                                    <input type="hidden" id="asignaturaOcu" name="asignaturaOcu">
+                                    <input type="hidden" id="gradoOcu" name="gradoOcu">
+                                    				
+									<input type="submit" value="enviar" onclick='submitForm()'>
+                                  
+            </div>
+            <div class="col-1" style="background-color:white;">&nbsp;</div>
+        </div>  
+
+</body>
+</html>

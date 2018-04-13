@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>Gesti&oacute;n Cuestionarios pagina 3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<!--jQuery-->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+
+  <!--Bootstrap-->
+  <link rel="stylesheet" href="css/bootstrap.min.css"/>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<Style>
+    ul {
+    list-style: none; /* Remove list bullets */
+    padding: 0;
+    margin: 0;
+    color: blue;
+}
+li {
+    list-style: none; /* Remove list bullets */
+    padding: 0;
+    margin: 0;
+}
+    </Style>
+  
+  <script>
+/* Recibir variables */
+/* Esta función transforma en variables cualquier parametro pasado por get /*
+/* Una vez llamada al inicio de la página puede recuperar el valor simplemente usando el name del input como valor */
+function RecibirVariablesJs2(qs){
+    var s="";
+    for(var i=0;i<qs.length;i++){
+        if(qs.substring(i,i+1)=="+"){
+            s=s+" ";
+        }else{
+            s=s+qs.substring(i,i+1);
+        }
+    }
+return s;
+}
+
+
+</script>
+  
+  <link rel="stylesheet" href="js/jquery.mobile/jquery.mobile-1.4.5.css" /> 
+    <script src="js/jquery.mobile/jquery.mobile-1.4.5.min.js"></script>
+  <script type="text/javascript">
+//<![CDATA[
+function escribir_valor(){
+
+
+}
+//]]>
+
+
+</script>
+  <script>  
+var parametroCuest;
+var parametroAsig;
+var paramGrado;
+var opciones = ["1"];
+function atras(){
+    
+    
+    //window.location.href='pagina3.html?valor='+ params2['valor'] + '&as=' + params2['as'];
+     window.location.href='pagina4.html?valor='+ paramGrado + '&as=' + parametroAsig;
+}
+
+function submitForm(){
+    //le puedo poner un botón de confirmar.
+    formularioTotal.submit();
+}
+
+$(document).ready(function(){
+    
+    
+var c=eval('"'+document.location+'"');
+var n,m,o;
+var variable;
+var valor;
+
+n=c.indexOf("?");
+if(n==-1){
+
+}else{
+    while(n<c.length){
+        m=c.indexOf("=",n);
+        variable=c.substring(n+1,m);
+        o=c.indexOf("&",m);
+        if(o==-1){
+               o=c.length;
+        }
+        valor=unescape(RecibirVariablesJs2(c.substring(m+1,o)));
+        eval ("var "+variable+"='"+valor+"';");
+        console.log("44444444444444444444"+variable+"='"+valor+"';");
+        opciones.push(variable);
+        n=o;
+    }             
+}
+
+
+
+
+
+
+            var paramstr2 = window.location.search.substr(1);
+            var paramarr2 = paramstr2.split ("&");
+            var params2 = {};          
+            
+            for ( var i = 0; i < paramarr2.length; i++) {
+                var tmparr2 = paramarr2[i].split("=");
+                params2[tmparr2[0]] = tmparr2[1];                
+            }
+            parametroCuest = params2['cuestionarioOcu'];
+            parametroAsig = params2['asignaturaOcu'];
+            paramGrado =  params2['gradoOcu'];
+            
+        $("#asignatura").text(parametroAsig.toUpperCase());  
+
+
+        
+
+        
+    $.ajax({
+    type: "GET",      
+    url: 'http://192.168.1.103:8080/ApiRest-0.0.1-SNAPSHOT/preguntas' + "/" + parametroCuest,     
+   
+    dataType: "json",   
+    success: function(data){        
+      $.each(data,function(key, registro) {                               
+        $("#pregunta").append('<p><ul>' + registro.textoPregunta + '<p>'); 
+        var arrayrec = registro.listaRespuestas;
+        var tipopregunta = registro.tipoPregunta;
+        console.log(opciones);
+        
+            $.each(arrayrec,function(key, registroResp) {  
+                var uno = "ok" + registroResp.idPreguntaResp + "_" + registroResp.idRespuesta;
+                console.log("unoooooo" + uno);
+                var encontrado = opciones.includes(uno);
+                console.log("encontrado" + encontrado);
+                
+                var valido =  registroResp.valido;                
+                    
+                if (tipopregunta=="Excluyente"){
+                    if (valido==true){
+                        if(encontrado==true){
+                             $("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' checked><font color=green> ' + registroResp.textoRespuesta + '</li>');
+                         }else{
+                             $("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' checked><font color=red> ' + registroResp.textoRespuesta + '</li>');
+                         }
+                       
+                    }else{
+                         if(encontrado==true){
+                            $("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + '><font color=red> ' + registroResp.textoRespuesta + '</li>');
+                        }else{
+                            $("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + '> ' + registroResp.textoRespuesta + '</li>');
+                        }
+                    }
+                }else{
+                     if (valido==true){
+                        if(encontrado==true){
+                            $("#pregunta").append('<li><input type=checkbox name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' checked><font color=green> ' + registroResp.textoRespuesta + '</li>');
+                        }else{
+                             $("#pregunta").append('<li><input type=checkbox name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' checked><font color=red> ' + registroResp.textoRespuesta + '</li>');
+                        }
+                    }else{
+                        if(encontrado==true){
+                            $("#pregunta").append('<li><input type=checkbox name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + '><font color=red> ' + registroResp.textoRespuesta + '</li>');
+                        }else{
+                             $("#pregunta").append('<li><input type=checkbox name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + '> ' + registroResp.textoRespuesta + '</li>');
+                        }
+                    }
+                }
+                
+            });
+      });        
+    },
+    error: function(data) {
+      alert('error');
+    }
+  });
+    
+    
+})
+
+
+
+
+    </script>
+
+
+
+
+
+</head>
+
+    <body>
+<div class="row">
+        <div class="col-2" style="text-align: right; background-color: #113416;"><br><font color="white"><label onclick="atras()"> <<<< </label></font></div>
+        <div class="col-9" style="text-align: right; background-color: #113416;"><br><font color="white"><label id="asignatura"></label></font></div>
+        <div class="col-1" style="text-align: center; background-color: #113416;">&nbsp;</div>
+    </div>
+    
+    
+    
+<br><br>
+        
+       
+         <div class="row">         
+            <div class="col-1" style="background-color:white;">&nbsp;</div>
+            <div class="col-10 align-self-center" style="background-color:white;">     
+                <form action="index.html" name="formularioTotal" method="get">            
+                        <label>Preguntas y Respuestas:</label>                              
+                                    <div id="pregunta">
+                                    
+                                    </ul>   
+                                    </div>                              
+                                    <input type="submit" value="Terminar" onclick='submitForm()'>
+                            </form>
+            </div>
+            <div class="col-1" style="background-color:white;">&nbsp;</div>
+        </div>  
+
+</body>
+</html>
+<div id="mensaje"></div>
+</body>
+</html>

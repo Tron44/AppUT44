@@ -1,0 +1,81 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Gesti&oacute;n Cuestionarios pagina 2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<!--jQuery-->
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+
+  <!--Bootstrap-->
+  <link rel="stylesheet" href="css/bootstrap.min.css"/>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  
+  
+<script>	
+
+
+function getSeleccion(){
+	
+	window.location.href='pagina3.html?valor=' + Select2.options[Select2.selectedIndex].value;
+}
+
+
+
+	</script>
+	
+	<script>	
+
+$(document).ready(function(){
+	var paramstr = window.location.search.substr(7);		
+	$.ajax({
+    type: "GET",      
+    url: 'http://localhost:8080/ApiRest-0.0.1-SNAPSHOT/asignaturas' + "/" + paramstr,     
+    dataType: "json",    
+    success: function(data){    	
+      $.each(data,function(key, registro) {
+        $("#Select2").append('<option value='+registro.idAsignatura+'>'+registro.nombreAsignatura+'</option>');
+      });        
+    },
+    error: function(data) {
+      alert('error');
+    }
+  });
+	
+	
+	
+})
+
+
+
+
+	</script>
+
+   
+  
+</head>
+
+
+
+
+
+
+<body>
+
+   
+<hr><br>
+
+
+<p>Sessions: 
+<select id="Select2"></select>
+
+
+<input type='button' onclick='getSeleccion()' value='recuperarSel'>
+
+
+</body>
+</html>
