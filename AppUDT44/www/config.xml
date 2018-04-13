@@ -17,7 +17,6 @@
     </config-file>
 </platform>
 <feature name="http://api.phonegap.com/1.0/geolocation"/>
-
 <feature name="http://api.phonegap.com/1.0/network"/>
 
 	<icon src="www/assets/fondo_logo.png"/>
