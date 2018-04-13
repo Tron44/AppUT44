@@ -4,10 +4,12 @@
     <description>
         A blank PhoneGap app.
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="rarranzm@gmail.com" href="http://tron44.com">
+        Raul arranz molinero
     </author>
     <content src="index.html" />
     <access origin="*" />
+   
+	<allow-navigation href="*" />
 	<icon src="www/assets/fondo_logo.png"/>
 </widget>
