@@ -11,5 +11,12 @@
     <access origin="*" />
    
 	<allow-navigation href="*" />
+<platform name="android">
+    <config-file target="AndroidManifest.xml" parent="/*">
+         <uses-permission android:name="android.permission.INTERNET" />
+         <!--<uses-permission android:name="android.permission.NETWORK_ACCESS" />
+             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    </config-file>
+</platform>
 	<icon src="www/assets/fondo_logo.png"/>
 </widget>
