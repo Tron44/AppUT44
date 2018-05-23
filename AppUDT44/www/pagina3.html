@@ -56,10 +56,17 @@ $(document).ready(function(){
 			paramGrado = params['valor'];
 		$("#asignatura").text(params['as'].toUpperCase());		
 	$.ajax({
-    type: "GET",      
-    url: 'http://192.168.1.36:8080/ApiUDT44-1.0.0/cuestionarios' + "/" + paramGrado,     
+          
+    url: 'http://90.173.3.108/ApiUDT44-1.0.0/cuestionarios' + "/" + paramGrado,  
+    type: 'GET',//tipo de petición
+        dataType: 'jsonp',//tipo de datos
+        crossOrigin: true,
+        crossDomain: true,
+        jsonp: true,
+        jsonp: 'callback',//nombre de la variable get para reconocer la petición
+        jsonpCallback: 'callback',   
    
-    dataType: "json",    
+        
     success: function(data){    	
       $.each(data,function(key, registro) {     
       

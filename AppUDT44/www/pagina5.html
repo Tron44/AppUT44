@@ -147,7 +147,7 @@ if(n==-1){
                 
                 var valido =  registroResp.valido;                
                     
-                if (tipopregunta=="Excluyente"){
+                if (tipopregunta=="0"){
                     if (valido==true){
                         if(encontrado==true){
                              $("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' checked><font color=green> ' + registroResp.textoRespuesta + '</li>');

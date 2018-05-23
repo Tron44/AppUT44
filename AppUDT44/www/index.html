@@ -5,8 +5,6 @@
 <title>Gesti&oacute;n Cuestionarios UDIMA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-
 <!--jQuery-->
   <script type="text/javascript" src="js/jquery.min.js"></script>
 
@@ -28,13 +26,16 @@ function getAsignatura(){
   document.getElementById('Select2').innerText = null;  
   
 	var paramstr=Select.options[Select.selectedIndex].value;	
-	$.ajax({
-    type: "GET",      
-    url: 'http://192.168.1.36:8080/ApiUDT44-1.0.0/asignaturas' + "/" + paramstr
-    
-    ,     
-    
-    dataType: "json",     
+	$.ajax({    
+    url: 'http://90.173.3.108/ApiUDT44-1.0.0/asignaturas' + "/" + paramstr,     
+        
+        type: 'GET',//tipo de petición
+        dataType: 'jsonp',//tipo de datos
+        crossOrigin: true,
+        crossDomain: true,
+        jsonp: true,
+        jsonp: 'callback',//nombre de la variable get para reconocer la petición
+        jsonpCallback: 'callback',
     success: function(data2){  
     $("#Select2").append('<option></option>');
       $.each(data2,function(key, registro) {
@@ -79,31 +80,28 @@ function getCleanedString(cadena){
 }
 
 
-
-
-
 	</script>
-  
-  
-  
-  
   
 <script>	
 
 function getData(){
   $.ajax({
-    type: "GET",
-    url: 'http://192.168.1.36:8080/ApiUDT44-1.0.0/grados', 
-    
-    dataType: "json",       
-    success: function(data){       
-     	 
+        url: 'http://90.173.3.108/ApiUDT44-1.0.0/grados',//esto con un archivo php
+        //url : 'http://miservidorremoto.com/clase/metodo',//esto con codeigniter :D
+        type: 'GET',//tipo de petición
+        dataType: 'jsonp',//tipo de datos
+        crossOrigin: true,
+        crossDomain: true,
+        jsonp: true,
+        jsonp: 'callback',//nombre de la variable get para reconocer la petición
+        jsonpCallback: 'callback',
+       success: function (data){     
       $.each(data,function(key, registro) {
-        $("#Select2").append('<option value='+registro.idGrado+'>'+registro.nombreGrado+'</option>');
+        $("#Select").append('<option value='+registro.idGrado+'>'+registro.nombreGrado+'</option>');
       });        
     },
     error: function(data) {
-      alert('error');
+      console.log('error');
     }
   });
 }
@@ -111,32 +109,9 @@ function getData(){
 
 	</script>
 	
-	<script>	
-
-$(document).ready(function(){
-
-	
-	$.ajax({
-    type: "GET",
-    url: 'http://192.168.1.36:8080/ApiUDT44-1.0.0/grados', 
-   
-    dataType: "json",    
-    success: function(data){    	
-      $.each(data,function(key, registro) {
-        $("#Select").append('<option value='+registro.idGrado+'>'+registro.nombreGrado+'</option>');
-      });        
-    },
-    error: function(data) {
-      alert('error');
-    }
-  });
-	
-	
-	
-})
-
+	<script>
+$(document).ready(getData())
 	</script>
-
   <script>  
 
 
@@ -152,7 +127,7 @@ function getCuestionario(){
 
 
 <body>
-	
+	 
 	<div class="row">
 		<div class="col-1">&nbsp;</div>		
 		<div class="col-10" style="text-align: center;"><br><img alt="Universidad a distancia Madrid" src='assets/Captura.PNG' style="max-width:100%;"/></div>

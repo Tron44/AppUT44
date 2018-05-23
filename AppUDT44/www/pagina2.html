@@ -32,10 +32,15 @@ function getSeleccion(){
 
 $(document).ready(function(){
 	var paramstr = window.location.search.substr(7);		
-	$.ajax({
-    type: "GET",      
-    url: 'http://localhost:8080/ApiRest-0.0.1-SNAPSHOT/asignaturas' + "/" + paramstr,     
-    dataType: "json",    
+	$.ajax({       
+    url: 'http://90.173.3.108/ApiUDT44-1.0.0/asignaturas' + "/" + paramstr,     
+    type: 'GET',//tipo de petición
+        dataType: 'jsonp',//tipo de datos
+        crossOrigin: true,
+        crossDomain: true,
+        jsonp: true,
+        jsonp: 'callback',//nombre de la variable get para reconocer la petición
+        jsonpCallback: 'callback',    
     success: function(data){    	
       $.each(data,function(key, registro) {
         $("#Select2").append('<option value='+registro.idAsignatura+'>'+registro.nombreAsignatura+'</option>');
