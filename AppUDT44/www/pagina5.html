@@ -76,7 +76,7 @@ function submitForm(){
     //le puedo poner un botón de confirmar.
     formularioTotal.submit();
 }
-
+//se recupera lo siguiente en cuanto a excluyentes?okpregresp172=ok172_576&cuestionarioOcu=53&asignaturaOcu=mecanica&gradoOcu=77
 $(document).ready(function(){
     
     
@@ -100,14 +100,10 @@ if(n==-1){
         eval ("var "+variable+"='"+valor+"';");
         console.log("44444444444444444444"+variable+"='"+valor+"';");
         opciones.push(variable);
+        opciones.push(valor);
         n=o;
     }             
 }
-
-
-
-
-
 
             var paramstr2 = window.location.search.substr(1);
             var paramarr2 = paramstr2.split ("&");
@@ -128,10 +124,16 @@ if(n==-1){
 
         
     $.ajax({
-    type: "GET",      
-    url: 'http://192.168.1.36:8080/ApiUDT44-1.0.0/preguntas' + "/" + parametroCuest,     
-   
-    dataType: "json",   
+         
+        
+     url: 'http://90.173.3.108/ApiUDT44-1.0.0/preguntas' + "/" + parametroCuest, 
+   type: 'GET',//tipo de petición
+        dataType: 'jsonp',//tipo de datos
+        crossOrigin: true,
+        crossDomain: true,
+        jsonp: true,
+        jsonp: 'callback',//nombre de la variable get para reconocer la petición
+        jsonpCallback: 'callback',   
     success: function(data){        
       $.each(data,function(key, registro) {                               
         $("#pregunta").append('<p><ul>' + registro.textoPregunta + '<p>'); 
@@ -145,35 +147,39 @@ if(n==-1){
                 var encontrado = opciones.includes(uno);
                 console.log("encontrado" + encontrado);
                 
-                var valido =  registroResp.valido;                
+                var valido =  registroResp.valido;   
+                console.log("valido" + valido);             
                     
                 if (tipopregunta=="0"){
-                    if (valido==true){
+                    if (valido=="true"){
+                        console.log(valido + "dentro de validotrue::::" + encontrado + ":"); 
                         if(encontrado==true){
-                             $("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' checked><font color=green> ' + registroResp.textoRespuesta + '</li>');
+                            console.log(valido + "++++++++++++++dentro de validotrue::::" + encontrado + ":"); 
+                             $("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' disabled checked><font color=green> ' + registroResp.textoRespuesta + ' <img src="assets/correcto.JPG" widht=20 height=20/></li>');
                          }else{
-                             $("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' checked><font color=red> ' + registroResp.textoRespuesta + '</li>');
+                             console.log(valido + "---------------------dentro de validotrue::::" + encontrado + ":"); 
+                             $("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' disabled>' + registroResp.textoRespuesta + '<font color=green> (correcta)</font></li>');
                          }
                        
                     }else{
                          if(encontrado==true){
-                            $("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + '><font color=red> ' + registroResp.textoRespuesta + '</li>');
+                            $("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' disabled checked><font color=red> ' + registroResp.textoRespuesta + ' <img src="assets/incorrecto.JPG" widht=20 height=20/></li>');
                         }else{
-                            $("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + '> ' + registroResp.textoRespuesta + '</li>');
+                            $("#pregunta").append('<li><input type=radio name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' disabled> ' + registroResp.textoRespuesta + '</li>');
                         }
                     }
                 }else{
-                     if (valido==true){
+                     if (valido=="true"){
                         if(encontrado==true){
-                            $("#pregunta").append('<li><input type=checkbox name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' checked><font color=green> ' + registroResp.textoRespuesta + '</li>');
+                            $("#pregunta").append('<li><input type=checkbox name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' checked disabled><font color=green> ' + registroResp.textoRespuesta + ' <img src="assets/correcto.JPG" widht=20 height=20/></li>');
                         }else{
-                             $("#pregunta").append('<li><input type=checkbox name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' checked><font color=red> ' + registroResp.textoRespuesta + '</li>');
+                             $("#pregunta").append('<li><input type=checkbox name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' disabled>' + registroResp.textoRespuesta + '<font color=green> (correcta)</font></li>');
                         }
                     }else{
                         if(encontrado==true){
-                            $("#pregunta").append('<li><input type=checkbox name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + '><font color=red> ' + registroResp.textoRespuesta + '</li>');
+                            $("#pregunta").append('<li><input type=checkbox name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' disabled checked><font color=red> ' + registroResp.textoRespuesta + ' <img src="assets/incorrecto.JPG" widht=20 height=20/></li>');
                         }else{
-                             $("#pregunta").append('<li><input type=checkbox name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + '> ' + registroResp.textoRespuesta + '</li>');
+                             $("#pregunta").append('<li><input type=checkbox name=ok' + registroResp.idPreguntaResp + '_' + registroResp.idRespuesta + ' disabled> ' + registroResp.textoRespuesta + '</li>');
                         }
                     }
                 }
