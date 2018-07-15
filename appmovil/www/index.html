@@ -66,10 +66,10 @@ function getCleanedString(cadena){
    // Lo queremos devolver limpio en minusculas
    cadena = cadena.toLowerCase();
 
-   // Quitamos espacios y los sustituimos por _ porque nos gusta mas asi
+   // Quitamos espacios y los sustituimos por _ 
    cadena = cadena.replace(/ /g,"_");
 
-   // Quitamos acentos y "ñ". Fijate en que va sin comillas el primer parametro
+   // Quitamos acentos y "ñ". 
    cadena = cadena.replace(/á/gi,"a");
    cadena = cadena.replace(/é/gi,"e");
    cadena = cadena.replace(/í/gi,"i");
@@ -86,8 +86,8 @@ function getCleanedString(cadena){
 
 function getData(){
   $.ajax({
-        url: 'http://90.173.3.108/ApiUDT44-1.0.0/grados',//esto con un archivo php
-        //url : 'http://miservidorremoto.com/clase/metodo',//esto con codeigniter :D
+        url: 'http://90.173.3.108/ApiUDT44-1.0.0/grados',
+        //url : 'http://miservidorremoto.com/clase/metodo',
         type: 'GET',//tipo de petición
         dataType: 'jsonp',//tipo de datos
         crossOrigin: true,
